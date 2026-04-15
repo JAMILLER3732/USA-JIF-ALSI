@@ -1,6 +1,6 @@
 # Alabama Stock Index (ALSI) Dashboard
 
-A comprehensive interactive regional economic dashboard tracking the **Alabama Stock Market Index (ALSI)** against national benchmarks (DJIA, S&P 500 Equally Weighted). Built as a leading economic indicator for the State of Alabama, consistent with the [FGCU/RERI Southwest Florida Stock Index](https://www.fgcu.edu/cob/reri/dashboard/swfl-stock-index) methodology.
+A comprehensive interactive regional economic dashboard tracking the **Alabama Stock Market Index (ALSI)** against national benchmarks (DJIA, S&P 500 Equally Weighted). Built as a leading economic indicator for the State of Alabama, consistent with the  methodology.
 
 **Live Demo:** `https://<your-username>.github.io/<repo-name>/`
 
