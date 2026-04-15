@@ -182,22 +182,143 @@ header {
 }
 .hdr-tag strong { display: block; color: rgba(255,255,255,0.82); font-size: 11.5px; letter-spacing:.02em; }
 
-/* ── BREADCRUMB ─────────────────────────────────────────────────── */
-.breadcrumb {
+/* ── DROPDOWN NAVIGATION ────────────────────────────────────────── */
+.dnav-wrap {
+  background: var(--navy-dark);
+  border-bottom: 3px solid var(--red);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+.dnav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* Every top-level nav item */
+.dnav-item {
+  position: relative;
+  flex-shrink: 0;
+}
+.dnav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 16px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.72);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .15s, background .15s;
+  user-select: none;
+}
+.dnav-btn:hover,
+.dnav-item.open .dnav-btn {
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+.dnav-btn.active-top {
+  color: #fff;
+  border-bottom-color: var(--red);
+}
+/* Arrow chevron */
+.dnav-arrow {
+  width: 0; height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  opacity: 0.6;
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+.dnav-item.open .dnav-arrow { transform: rotate(180deg); opacity: 1; }
+
+/* Single button (no dropdown) */
+.dnav-btn.single {
+  /* same as dnav-btn — just no chevron */
+}
+.dnav-btn.single.active-top {
+  color: #fff;
+  border-bottom-color: var(--red);
+  background: rgba(255,255,255,0.06);
+}
+
+/* DROPDOWN PANEL */
+.dnav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 240px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--red);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+  z-index: 999;
+}
+.dnav-item.open .dnav-dropdown { display: block; }
+
+.dnav-dd-item {
+  display: block;
+  width: 100%;
+  padding: 11px 18px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--txt-sub);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-lt);
+  text-align: left;
+  cursor: pointer;
+  transition: background .12s, color .12s;
+  white-space: nowrap;
+}
+.dnav-dd-item:last-child { border-bottom: none; }
+.dnav-dd-item:hover   { background: #FEF2F2; color: var(--red); }
+.dnav-dd-item.active  { background: #FEF2F2; color: var(--red); font-weight: 700; border-left: 3px solid var(--red); padding-left: 15px; }
+
+/* Dropdown group header (non-clickable label) */
+.dnav-dd-group {
+  display: block;
+  padding: 9px 18px 5px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--txt-faint);
   background: var(--bg-off);
   border-bottom: 1px solid var(--border-lt);
-  padding: 8px 0;
-  font-size: 12.5px;
+  cursor: default;
 }
-.bc-row {
-  max-width: var(--max-width); margin: 0 auto; padding: 0 20px;
-  display: flex; align-items: center; flex-wrap: wrap; gap: 0;
-  color: var(--txt-muted);
+
+/* Active top-level label shown in banner when tab is open */
+.dnav-current-label {
+  margin-left: auto;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.bc-row a { color: var(--navy); text-decoration: none; }
-.bc-row a:hover { color: var(--red); text-decoration: underline; }
-.bc-sep { margin: 0 7px; color: var(--txt-faint); }
-.bc-current { color: var(--txt-sub); font-weight: 600; }
+.dnav-current-label span { color: rgba(255,255,255,0.82); }
 
 /* ── PAGE BANNER (dark navy with red rule — matches JIF sub-pages) */
 .page-banner {
@@ -260,34 +381,6 @@ header {
 .lb-sep { color: var(--border-lt); }
 #lu, #page-refreshed { color: var(--txt-muted); }
 .lb-source { margin-left: auto; font-size: 10.5px; color: var(--txt-faint); }
-
-/* ── TAB NAVIGATION ─────────────────────────────────────────────── */
-.tab-nav-wrap {
-  background: #ffffff;
-  border-bottom: 3px solid var(--red);
-  overflow-x: auto; scrollbar-width: none;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.07);
-}
-.tab-nav-wrap::-webkit-scrollbar { display: none; }
-.tab-nav {
-  max-width: var(--max-width); margin: 0 auto;
-  display: flex; padding: 0 10px;
-}
-.tab-btn {
-  flex-shrink: 0;
-  padding: 13px 14px;
-  font-family: var(--font-body);
-  font-size: 10.5px; font-weight: 700;
-  letter-spacing: .05em; text-transform: uppercase;
-  color: var(--txt-muted);
-  background: transparent; border: none;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -3px;
-  cursor: pointer; white-space: nowrap;
-  transition: color .14s, background .14s;
-}
-.tab-btn:hover  { color: var(--red); background: #FEF2F2; }
-.tab-btn.active { color: var(--red); border-bottom-color: var(--red); background: #FEF2F2; }
 
 /* ── PAGE CONTENT LAYOUT ────────────────────────────────────────── */
 .tab-panel { display: none; padding: 30px 0 52px; }
@@ -550,19 +643,76 @@ footer {
 </header>
 
 <!-- BREADCRUMB -->
-<div class="breadcrumb">
-  <div class="bc-row">
-    <a href="https://www.southalabama.edu/">Home</a>
-    <span class="bc-sep">›</span>
-    <a href="https://www.southalabama.edu/colleges/">Colleges</a>
-    <span class="bc-sep">›</span>
-    <a href="https://www.southalabama.edu/colleges/mcob/">Mitchell College of Business</a>
-    <span class="bc-sep">›</span>
-    <a href="https://www.southalabama.edu/colleges/mcob/jaguarinvestmentfund/">Jaguar Investment Fund</a>
-    <span class="bc-sep">›</span>
-    <span class="bc-current">Alabama Stock Index Dashboard</span>
+<!-- DROPDOWN NAVIGATION ─────────────────────────────────────────
+  Groups: Stock Index (standalone) | Market Indicators (4 tabs)
+          Labor & Employment (2 tabs) | Housing & Real Estate (4 tabs)
+          Economic Conditions (2 tabs)
+─────────────────────────────────────────────────────────────── -->
+<nav class="dnav-wrap" id="dnav">
+  <div class="dnav-inner">
+
+    <!-- ALSI Stock Index — standalone, no dropdown -->
+    <div class="dnav-item">
+      <button class="dnav-btn single active-top" data-tab="stock">
+        ALSI Stock Index
+      </button>
+    </div>
+
+    <!-- Market Activity dropdown -->
+    <div class="dnav-item" id="grp-market">
+      <button class="dnav-btn" onclick="toggleDrop('grp-market')">
+        Market Activity <span class="dnav-arrow"></span>
+      </button>
+      <div class="dnav-dropdown">
+        <span class="dnav-dd-group">Market Activity</span>
+        <button class="dnav-dd-item" data-tab="airport">Airport Passenger Activity</button>
+        <button class="dnav-dd-item" data-tab="tourist">Tourist Tax Revenues</button>
+        <button class="dnav-dd-item" data-tab="taxsales">Taxable Sales</button>
+      </div>
+    </div>
+
+    <!-- Labor & Employment dropdown -->
+    <div class="dnav-item" id="grp-labor">
+      <button class="dnav-btn" onclick="toggleDrop('grp-labor')">
+        Labor &amp; Employment <span class="dnav-arrow"></span>
+      </button>
+      <div class="dnav-dropdown">
+        <span class="dnav-dd-group">Labor &amp; Employment</span>
+        <button class="dnav-dd-item" data-tab="labor">Labor Force &amp; Employment</button>
+        <button class="dnav-dd-item" data-tab="empind">Employment by Industry</button>
+      </div>
+    </div>
+
+    <!-- Housing & Real Estate dropdown -->
+    <div class="dnav-item" id="grp-housing">
+      <button class="dnav-btn" onclick="toggleDrop('grp-housing')">
+        Housing &amp; Real Estate <span class="dnav-arrow"></span>
+      </button>
+      <div class="dnav-dropdown">
+        <span class="dnav-dd-group">Housing &amp; Real Estate</span>
+        <button class="dnav-dd-item" data-tab="permits">Single-Family Building Permits</button>
+        <button class="dnav-dd-item" data-tab="homesales">Existing Home Sales</button>
+        <button class="dnav-dd-item" data-tab="listings">Residential Active Listings</button>
+        <button class="dnav-dd-item" data-tab="hai">Housing Affordability Index</button>
+      </div>
+    </div>
+
+    <!-- Economic Conditions dropdown -->
+    <div class="dnav-item" id="grp-econ">
+      <button class="dnav-btn" onclick="toggleDrop('grp-econ')">
+        Economic Conditions <span class="dnav-arrow"></span>
+      </button>
+      <div class="dnav-dropdown">
+        <span class="dnav-dd-group">Economic Conditions</span>
+        <button class="dnav-dd-item" data-tab="cpi">Consumer Price Index</button>
+      </div>
+    </div>
+
+    <!-- Current page label, right-aligned -->
+    <div class="dnav-current-label">Viewing: <span id="dnav-current">ALSI Stock Index</span></div>
+
   </div>
-</div>
+</nav>
 
 <!-- PAGE BANNER -->
 <div class="page-banner">
@@ -590,23 +740,6 @@ footer {
     <span class="lb-sep">|</span>
     <span id="page-refreshed"></span>
     <span class="lb-source">Yahoo Finance · Federal Reserve (FRED) · BLS · Census Bureau</span>
-  </div>
-</div>
-
-<!-- TAB NAVIGATION -->
-<div class="tab-nav-wrap">
-  <div class="tab-nav">
-    <button class="tab-btn active" data-tab="stock">ALSI Stock Index</button>
-    <button class="tab-btn" data-tab="airport">Airport Passenger Activity</button>
-    <button class="tab-btn" data-tab="tourist">Tourist Tax Revenues</button>
-    <button class="tab-btn" data-tab="taxsales">Taxable Sales</button>
-    <button class="tab-btn" data-tab="labor">Labor Force &amp; Employment</button>
-    <button class="tab-btn" data-tab="empind">Employment by Industry</button>
-    <button class="tab-btn" data-tab="permits">Single-Family Building Permits</button>
-    <button class="tab-btn" data-tab="homesales">Existing Home Sales</button>
-    <button class="tab-btn" data-tab="listings">Residential Active Listings</button>
-    <button class="tab-btn" data-tab="cpi">Consumer Price Index</button>
-    <button class="tab-btn" data-tab="hai">Housing Affordability Index</button>
   </div>
 </div>
 
@@ -1104,15 +1237,84 @@ function setPageRefreshedTime() {
 }
 
 // ─── TABS ─────────────────────────────────────────────────────────────────────
+// ─── TAB NAMES MAP ────────────────────────────────────────────────────────────
+const TAB_NAMES = {
+  stock:     'ALSI Stock Index',
+  airport:   'Airport Passenger Activity',
+  tourist:   'Tourist Tax Revenues',
+  taxsales:  'Taxable Sales',
+  labor:     'Labor Force & Employment',
+  empind:    'Employment by Industry',
+  permits:   'Single-Family Building Permits',
+  homesales: 'Existing Home Sales',
+  listings:  'Residential Active Listings',
+  cpi:       'Consumer Price Index',
+  hai:       'Housing Affordability Index',
+};
+
+// ─── DROPDOWN OPEN/CLOSE ──────────────────────────────────────────────────────
+function toggleDrop(groupId) {
+  const item = document.getElementById(groupId);
+  const isOpen = item.classList.contains('open');
+  // Close all dropdowns first
+  document.querySelectorAll('.dnav-item').forEach(el => el.classList.remove('open'));
+  // Toggle the clicked one
+  if (!isOpen) item.classList.add('open');
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', e => {
+  if (!e.target.closest('.dnav-item')) {
+    document.querySelectorAll('.dnav-item').forEach(el => el.classList.remove('open'));
+  }
+});
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.dnav-item').forEach(el => el.classList.remove('open'));
+});
+
+// ─── SWITCH TAB ───────────────────────────────────────────────────────────────
+function switchTab(id) {
+  // Hide all panels
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  // Show target
+  const panel = document.getElementById('tab-' + id);
+  if (panel) panel.classList.add('active');
+
+  // Update dropdown item active states
+  document.querySelectorAll('.dnav-dd-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === id);
+  });
+  // Update single buttons
+  document.querySelectorAll('.dnav-btn.single').forEach(btn => {
+    btn.classList.toggle('active-top', btn.dataset.tab === id);
+  });
+  // Update group parent button highlight
+  document.querySelectorAll('.dnav-item').forEach(item => {
+    const hasActive = item.querySelector(`.dnav-dd-item[data-tab="${id}"]`);
+    const parentBtn = item.querySelector('.dnav-btn:not(.single)');
+    if (parentBtn) parentBtn.classList.toggle('active-top', !!hasActive);
+  });
+
+  // Update current label
+  const lbl = document.getElementById('dnav-current');
+  if (lbl) lbl.textContent = TAB_NAMES[id] || id;
+
+  // Close all open dropdowns
+  document.querySelectorAll('.dnav-item').forEach(el => el.classList.remove('open'));
+
+  // Lazy-init tab data
+  if (!S.tabsInit[id]) { S.tabsInit[id] = true; initTab(id); }
+}
+
 function setupTabs() {
-  document.querySelectorAll('.tbtn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.tpanel').forEach(p=>p.classList.remove('active'));
-      btn.classList.add('active');
+  // Wire all nav buttons (both single and dropdown items)
+  document.querySelectorAll('[data-tab]').forEach(btn => {
+    btn.addEventListener('click', e => {
       const id = btn.dataset.tab;
-      document.getElementById('tab-'+id).classList.add('active');
-      if (!S.tabsInit[id]) { S.tabsInit[id]=true; initTab(id); }
+      if (!id) return;
+      e.stopPropagation();
+      switchTab(id);
     });
   });
 }
