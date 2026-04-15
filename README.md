@@ -11,7 +11,7 @@ A comprehensive interactive regional economic dashboard tracking the **Alabama S
 ### ALSI Stock Index Tab
 - **Price-Weighted Index (PWI)** of 9 Alabama-headquartered public companies
 - Benchmarked vs **DJIA** and **S&P 500 Equally Weighted (RSP)**
-- FGCU-style sidebar: dual-range date slider + click-to-change line colors + visibility toggles
+
 - Daily granularity area chart (base = 100, Jan 2 2020)
 - Component breakdown table, sector allocation, beta analysis, annual returns
 
